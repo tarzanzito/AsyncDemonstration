@@ -70,6 +70,9 @@ namespace WinFormsApp1
                 Debug.WriteLine("Send order to Process Two Begin");
                 Task<string> t2 = ProcessTwoAsync();
 
+            //https://www.youtube.com/watch?v=gW19LaAYczI
+
+                //WHY both same time ?!?!??!!
                 await t1; //v1 result OK - Run all at same time!!!!!!!!!!!!!!! ?!??!?!
                 await t2; //v1 result OK - Run all at same time !!!!!!!!!!!!!! ?!?!??! 
 
