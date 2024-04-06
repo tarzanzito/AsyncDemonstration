@@ -28,64 +28,68 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            buttonSequencial = new Button();
             textBox1 = new TextBox();
-            button2 = new Button();
+            buttonSameTime = new Button();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
+            buttonCancel = new Button();
+            buttonExample = new Button();
+            label5 = new Label();
+            buttonTestUnlocked = new Button();
             SuspendLayout();
             // 
-            // button1
+            // buttonSequencial
             // 
-            button1.Location = new Point(12, 124);
-            button1.Name = "button1";
-            button1.Size = new Size(118, 29);
-            button1.TabIndex = 0;
-            button1.Text = "Await 1 After 2";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            buttonSequencial.Location = new Point(15, 162);
+            buttonSequencial.Name = "buttonSequencial";
+            buttonSequencial.Size = new Size(139, 60);
+            buttonSequencial.TabIndex = 0;
+            buttonSequencial.Text = "Pure Async / Await - run P2 only after P1 finished";
+            buttonSequencial.UseVisualStyleBackColor = true;
+            buttonSequencial.Click += buttonSequencial_Click;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(12, 12);
+            textBox1.Location = new Point(12, 37);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(513, 23);
             textBox1.TabIndex = 1;
             // 
-            // button2
+            // buttonSameTime
             // 
-            button2.Location = new Point(136, 124);
-            button2.Name = "button2";
-            button2.Size = new Size(140, 29);
-            button2.TabIndex = 2;
-            button2.Text = "Await Both Same Time";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            buttonSameTime.Location = new Point(188, 166);
+            buttonSameTime.Name = "buttonSameTime";
+            buttonSameTime.Size = new Size(140, 56);
+            buttonSameTime.TabIndex = 2;
+            buttonSameTime.Text = "Multi Async/Await - Run Both tasks at same time";
+            buttonSameTime.UseVisualStyleBackColor = true;
+            buttonSameTime.Click += buttonSameTime_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(10, 43);
+            label1.Location = new Point(12, 88);
             label1.Name = "label1";
-            label1.Size = new Size(89, 15);
+            label1.Size = new Size(110, 15);
             label1.TabIndex = 6;
-            label1.Text = "A Fritar Batatas:";
+            label1.Text = "Async Process One:";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 68);
+            label2.Location = new Point(14, 113);
             label2.Name = "label2";
-            label2.Size = new Size(81, 15);
+            label2.Size = new Size(109, 15);
             label2.TabIndex = 7;
-            label2.Text = "A Cozer Ovos:";
+            label2.Text = "Async Process Two:";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(105, 43);
+            label3.Location = new Point(129, 88);
             label3.Name = "label3";
             label3.Size = new Size(38, 15);
             label3.TabIndex = 8;
@@ -94,24 +98,67 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(105, 68);
+            label4.Location = new Point(129, 113);
             label4.Name = "label4";
             label4.Size = new Size(38, 15);
             label4.TabIndex = 9;
             label4.Text = "label4";
             // 
+            // buttonCancel
+            // 
+            buttonCancel.Location = new Point(407, 245);
+            buttonCancel.Name = "buttonCancel";
+            buttonCancel.Size = new Size(118, 29);
+            buttonCancel.TabIndex = 10;
+            buttonCancel.Text = "Cancel";
+            buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
+            // 
+            // buttonExample
+            // 
+            buttonExample.Location = new Point(173, 245);
+            buttonExample.Name = "buttonExample";
+            buttonExample.Size = new Size(155, 29);
+            buttonExample.TabIndex = 11;
+            buttonExample.Text = "Task With Cancellation";
+            buttonExample.UseVisualStyleBackColor = true;
+            buttonExample.Click += buttonExample_Click;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(12, 19);
+            label5.Name = "label5";
+            label5.Size = new Size(121, 15);
+            label5.TabIndex = 12;
+            label5.Text = "Test unlock keyboard:";
+            // 
+            // buttonTestUnlocked
+            // 
+            buttonTestUnlocked.Location = new Point(389, 74);
+            buttonTestUnlocked.Name = "buttonTestUnlocked";
+            buttonTestUnlocked.Size = new Size(136, 29);
+            buttonTestUnlocked.TabIndex = 13;
+            buttonTestUnlocked.Text = "Test Unlocked Mouse";
+            buttonTestUnlocked.UseVisualStyleBackColor = true;
+            buttonTestUnlocked.Click += buttonTestUnlocked_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(538, 175);
+            ClientSize = new Size(711, 355);
+            Controls.Add(buttonTestUnlocked);
+            Controls.Add(label5);
+            Controls.Add(buttonExample);
+            Controls.Add(buttonCancel);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(button2);
+            Controls.Add(buttonSameTime);
             Controls.Add(textBox1);
-            Controls.Add(button1);
+            Controls.Add(buttonSequencial);
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
@@ -120,12 +167,16 @@
 
         #endregion
 
-        private Button button1;
+        private Button buttonSequencial;
         private TextBox textBox1;
-        private Button button2;
+        private Button buttonSameTime;
         private Label label1;
         private Label label2;
         private Label label3;
         private Label label4;
+        private Button buttonCancel;
+        private Button buttonExample;
+        private Label label5;
+        private Button buttonTestUnlocked;
     }
 }

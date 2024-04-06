@@ -1,4 +1,6 @@
 ﻿
+using System.Threading.Tasks;
+
 namespace DemoApplication1;
 
 public class Program1
@@ -45,7 +47,7 @@ public class Program1
         //solve the tasks here and don't need async await
         //wait for the end of all tasks
         Task.WaitAll(task1, task2);
-
-         Console.WriteLine("Tasks Completed.");
+        ;
+        Console.WriteLine("Tasks Completed.");
     }
 }

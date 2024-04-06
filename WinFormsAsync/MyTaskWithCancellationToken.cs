@@ -6,7 +6,7 @@ namespace AsyncExample1
 {
     //alguem me disse que era preferivel Task.Run em vez de new Task + task.Start()
  
-    internal class MyTasks
+    internal class MyTaskWithCancellationToken
     {
         #region public
 

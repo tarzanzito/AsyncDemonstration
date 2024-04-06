@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncExample6", "AsyncExamp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAsync", "ConsoleAsync\ConsoleAsync.csproj", "{4823FAAE-115A-41FE-ABC1-66633350F10F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncExample7CancellationToken", "AsyncExample7CancellationToken\AsyncExample7CancellationToken.csproj", "{656C1C7A-0BFC-485D-B36F-215E558E3E91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{4823FAAE-115A-41FE-ABC1-66633350F10F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4823FAAE-115A-41FE-ABC1-66633350F10F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4823FAAE-115A-41FE-ABC1-66633350F10F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{656C1C7A-0BFC-485D-B36F-215E558E3E91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{656C1C7A-0BFC-485D-B36F-215E558E3E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{656C1C7A-0BFC-485D-B36F-215E558E3E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{656C1C7A-0BFC-485D-B36F-215E558E3E91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
