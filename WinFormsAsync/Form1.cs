@@ -242,6 +242,10 @@ namespace WinFormsApp1
 
         private async Task ExempleWithCancellationAsync(CancellationToken cancellationToken = default)
         {
+            //https://stackoverflow.com/questions/16063520/how-do-you-create-an-asynchronous-method-in-c
+            //Best away to method async in various net searchs , reconfirm !!!
+            //await Task.Yield();
+
             Debug.WriteLine($"Example: START");
 
             //try
