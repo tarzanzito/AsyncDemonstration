@@ -3,12 +3,13 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
-        CancellationTokenSource _cancellationTokenSource;
+        CancellationTokenSource? _cancellationTokenSource;
 
         public Form1()
         {
@@ -16,9 +17,38 @@ namespace WinFormsApp1
         }
 
         #region events
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            await Task.Run(() => {
+                //NOTE:inside Tasks we cannot make changes in UI components(generate exception);
+                //     use invoke
+                //     example Text1.Invoke( () => Text1.Text= "xpto");
+
+            } //, cancellationToken
+            );
+
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _cancellationTokenSource?.Cancel();
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //TODO: verificar se ainda não foi feito o dispose ou não é null
+            _cancellationTokenSource?.Cancel();
+        }
+
         private async void buttonSequencial_Click(object sender, EventArgs e)
         {
             _cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken cancellationToken = _cancellationTokenSource.Token;
 
             BlockButtons(true);
 
@@ -33,10 +63,10 @@ namespace WinFormsApp1
                 Debug.WriteLine("Send order to begin Process2");
 
                 Debug.WriteLine("before line Process1");
-                string res1 = await ProcessOneAsync();
+                string res1 = await ProcessOneAsync(cancellationToken);
 
                 Debug.WriteLine("before line Process2");
-                string res2 = await ProcessTwoAsync();
+                string res2 = await ProcessTwoAsync(cancellationToken);
 
                 Debug.WriteLine("Processe1 and Process2 finished.");
 
@@ -47,7 +77,7 @@ namespace WinFormsApp1
             }
             finally
             {
-                _cancellationTokenSource.Dispose();
+                _cancellationTokenSource?.Dispose();
             }
 
             BlockButtons(false);
@@ -57,6 +87,7 @@ namespace WinFormsApp1
         {
 
             _cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken cancellationToken = _cancellationTokenSource.Token;
 
             BlockButtons(true);
 
@@ -65,12 +96,12 @@ namespace WinFormsApp1
             try
             {
                 Debug.WriteLine("Send order to Process One Begin");
-                Task<string> t1 = ProcessOneAsync();
+                Task<string> t1 = ProcessOneAsync(cancellationToken);
 
                 Debug.WriteLine("Send order to Process Two Begin");
-                Task<string> t2 = ProcessTwoAsync();
+                Task<string> t2 = ProcessTwoAsync(cancellationToken);
 
-            //https://www.youtube.com/watch?v=gW19LaAYczI
+                //https://www.youtube.com/watch?v=gW19LaAYczI
 
                 //WHY both same time ?!?!??!!
                 await t1; //v1 result OK - Run all at same time!!!!!!!!!!!!!!! ?!??!?!
@@ -99,15 +130,17 @@ namespace WinFormsApp1
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource?.Cancel();
         }
 
         private async void buttonExample_Click(object sender, EventArgs e)
         {
             TimeSpan timeout = new TimeSpan(0, 0, 25);
 
+            //class variavel because is needed in event form.cancel and form.closeing or closed
             _cancellationTokenSource = new CancellationTokenSource();
             _cancellationTokenSource.CancelAfter(timeout);
+
 
             BlockButtons(true);
 
@@ -115,12 +148,14 @@ namespace WinFormsApp1
             {
                 Debug.WriteLine("Example Started.");
 
+                var cancellationToken = _cancellationTokenSource.Token;
+
                 //Task t1 = this.ExempleWithCancellationAsync(_cancellationTokenSource.Token);
                 //await t1;
 
                 //or
 
-                await ExempleWithCancellationAsync(_cancellationTokenSource.Token);
+                await ExempleWithCancellationAsync(cancellationToken);
 
                 Debug.WriteLine("Example Complited.");
 
@@ -135,7 +170,7 @@ namespace WinFormsApp1
             }
             finally
             {
-                _cancellationTokenSource.Dispose();
+                _cancellationTokenSource?.Dispose();
                 BlockButtons(false);
             }
         }
@@ -167,7 +202,7 @@ namespace WinFormsApp1
 
         #region Async processes
 
-        private async Task<string> ProcessOneAsync()
+        private async Task<string> ProcessOneAsync(CancellationToken cancellationToken)
         {
             Debug.WriteLine($"Process One Started, thread={Thread.CurrentThread.ManagedThreadId}");
 
@@ -177,7 +212,7 @@ namespace WinFormsApp1
 
                 label3.Text = i.ToString();
 
-                await Task.Delay(500, _cancellationTokenSource.Token);
+                await Task.Delay(500, cancellationToken);
             }
 
             Debug.WriteLine("Process One Finished");
@@ -185,7 +220,7 @@ namespace WinFormsApp1
             return "Process One Completed";
         }
 
-        private async Task<string> ProcessTwoAsync()
+        private async Task<string> ProcessTwoAsync(CancellationToken cancellationToken)
         {
             Debug.WriteLine($"Process Two Stared, thread={Thread.CurrentThread.ManagedThreadId}");
 
@@ -195,7 +230,9 @@ namespace WinFormsApp1
 
                 this.label4.Text = i.ToString();
 
-                await Task.Delay(1000, _cancellationTokenSource.Token);
+                //Note: In case of _cancellationTokenSource.Cancel
+                //      the Task.Delay generate a Exception 
+                await Task.Delay(1000, cancellationToken); 
             }
 
             Debug.WriteLine("Process Two Finished");
@@ -203,7 +240,7 @@ namespace WinFormsApp1
             return "Process Two Completed";
         }
 
-        public async Task ExempleWithCancellationAsync(CancellationToken cancellationToken = default)
+        private async Task ExempleWithCancellationAsync(CancellationToken cancellationToken = default)
         {
             Debug.WriteLine($"Example: START");
 
@@ -216,17 +253,21 @@ namespace WinFormsApp1
 
                 cancellationToken.ThrowIfCancellationRequested();
                 //or
+                //if (cancellationToken.IsCancellationRequested)
+                //    throw new TaskCanceledException(task);
+                //or
                 if (cancellationToken.IsCancellationRequested)
                     break;
 
-                //its only for using await
-                await Task.Delay(1000);
+                //Note: In case of _cancellationTokenSource.Cancel
+                //      the Task.Delay generate a Exception
+                await Task.Delay(1000, cancellationToken);
 
-                //or
-                //await Task.Run(() => 
+                //simple way to turn async method 
+                //await Task.Run(() =>
                 //{
-                //    Debug.WriteLine($"Nothing todo in task: {i}");  //do nothing
-                //});
+                ////cancellationToken.ThrowIfCancellationRequested();
+                //}, cancellationToken);  //do nothing
             }
 
             //}
@@ -246,8 +287,6 @@ namespace WinFormsApp1
         }
 
         #endregion
-
-
     }
 }
 

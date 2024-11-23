@@ -39,6 +39,7 @@
             buttonExample = new Button();
             label5 = new Label();
             buttonTestUnlocked = new Button();
+            button1 = new Button();
             SuspendLayout();
             // 
             // buttonSequencial
@@ -106,7 +107,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(407, 245);
+            buttonCancel.Location = new Point(524, 242);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(118, 29);
             buttonCancel.TabIndex = 10;
@@ -116,9 +117,9 @@
             // 
             // buttonExample
             // 
-            buttonExample.Location = new Point(173, 245);
+            buttonExample.Location = new Point(352, 228);
             buttonExample.Name = "buttonExample";
-            buttonExample.Size = new Size(155, 29);
+            buttonExample.Size = new Size(155, 57);
             buttonExample.TabIndex = 11;
             buttonExample.Text = "Task With Cancellation";
             buttonExample.UseVisualStyleBackColor = true;
@@ -143,11 +144,22 @@
             buttonTestUnlocked.UseVisualStyleBackColor = true;
             buttonTestUnlocked.Click += buttonTestUnlocked_Click;
             // 
+            // button1
+            // 
+            button1.Location = new Point(352, 166);
+            button1.Name = "button1";
+            button1.Size = new Size(155, 56);
+            button1.TabIndex = 14;
+            button1.Text = "Task.Run";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(711, 355);
+            Controls.Add(button1);
             Controls.Add(buttonTestUnlocked);
             Controls.Add(label5);
             Controls.Add(buttonExample);
@@ -161,6 +173,9 @@
             Controls.Add(buttonSequencial);
             Name = "Form1";
             Text = "Form1";
+            FormClosing += Form1_FormClosing;
+            FormClosed += Form1_FormClosed;
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -178,5 +193,6 @@
         private Button buttonExample;
         private Label label5;
         private Button buttonTestUnlocked;
+        private Button button1;
     }
 }

@@ -32,19 +32,20 @@ namespace AsyncExample1
         {
             Console.WriteLine($"    MyTask.MyCounterRunAsync: Before RUN: {total.ToString("00")}:{pause.ToString("0000")}");
 
-            Task<string> task = null;
             try
             {
-                task = Task<string>.Run(async () => await CounterAsync(total, pause, token));
+                Task<string> task = Task<string>.Run(async () => await CounterAsync(total, pause, token));
+                return await task;
             }
             catch (Exception ex)
             {
-            string aa = ex.Message; 
+                string aa = ex.Message;
+                throw;
             }
-            
-            Console.WriteLine($"    MyTask.MyCounterRunAsync: After  RUN: {total.ToString("00")}:{pause.ToString("0000")}");
-
-            return await task;
+            finally
+            {
+                Console.WriteLine($"    MyTask.MyCounterRunAsync: After  RUN: {total.ToString("00")}:{pause.ToString("0000")}");
+            }
         }
 
         //public async Task<string> MyCounter1StartAsync(int total)
@@ -90,7 +91,7 @@ namespace AsyncExample1
                   //  }
                   //  catch { }
 
-                    Console.WriteLine($"        MyTask.Counter: {total.ToString("00")}:{pause.ToString("0000")} - {i.ToString()}");
+                    Console.WriteLine($"        MyTask.Counter: {total.ToString("00")}:{pause.ToString("0000")} - {i}");
                 }
 
                 Console.WriteLine($"        MyTask.Counter: END LOOP: {total.ToString("00")}:{pause.ToString("0000")}");
@@ -99,13 +100,11 @@ namespace AsyncExample1
             }
             catch(Exception ex)
             {
-            string aa=ex.Message;
-                return $"CounterAsync";
+                return $"CounterAsync {ex.Message}";
             }
-
         }
 
-        private string Counter(int total, int pause)
+        private static string Counter(int total, int pause)
         {
             int i;
             for (i = 0; i < total; i++)
